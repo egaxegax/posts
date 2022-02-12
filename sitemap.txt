@@ -156,7 +156,7 @@ https://egaxegax.github.io/posts.html?primery_shell-scenariev/ispolzovanie_ssh_c
 https://egaxegax.github.io/posts.html?podborka_citat_i_aforizmov/erih_mariya_remark_nemeckij_pisatel
 https://egaxegax.github.io/posts.html?primery_shell-scenariev/sborka_boost
 https://egaxegax.github.io/posts.html?primery_shell-scenariev/autoconf_sborka_32_bitnoj_versii_programmy_na_64_bitnoj_versii_linux
-https://egaxegax.github.io/posts.html?podborka_citat_i_aforizmov/jurij_lujkov_mer_gmoskvy
+https://egaxegax.github.io/posts.html?podborka_citat_i_aforizmov/jurij_lujkov_mer_g_moskvy
 https://egaxegax.github.io/posts.html?podborka_citat_i_aforizmov/djon_silver_pirat_iz_romana_ostrov_sokrovishch
 https://egaxegax.github.io/posts.html?primery_shell-scenariev/python_konvertiruem_kartinku_v_base64_stroku
 https://egaxegax.github.io/posts.html?podborka_citat_i_aforizmov/brjus_li_master_boevyh_isskustv_akter
@@ -176,7 +176,7 @@ https://egaxegax.github.io/posts.html?primery_shell-scenariev/kolichestvo_fajlov
 https://egaxegax.github.io/posts.html?primery_shell-scenariev/python_sajt_s_ispolzovaniem_django-nonrel_frejmvorka
 https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/karta_moskovskogo_metro_svg-versiya
 https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/pereschet_izobrajenij_pod_raznye_kartograficheskie_proekcii_v_webgl
-https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/zvezdnoe_nebo_na_webgl_s_ispolzovaniem_threejs
+https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/zvezdnoe_nebo_na_webgl_s_ispolzovaniem_three_js
 https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/gdal_translate_i_gdalwarp_dlya_pereproicirovaniya_izobrajenij
 https://egaxegax.github.io/posts.html?ispolzuem_html5_canvas/zvezdnoe_nebo_na_canvas_sozvezdiya_
 https://egaxegax.github.io/posts.html?primery_shell-scenariev/poluchit_svedeniya_o_zapushchennom_processeah

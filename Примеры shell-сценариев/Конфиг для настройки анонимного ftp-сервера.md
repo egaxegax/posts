@@ -6,9 +6,9 @@
 
     write_enable=yes
     anon_root=/
-    anon_mkdir_write_enable=yes
-    anon_other_write_enable=yes
-    anon_upload_enable=yes
+    anon_mkdir_write_enable =yes
+    anon_other_write_enable =yes
+    anon_upload_enable =yes
     anon_umask=000
 
     #seccomp_sandbox=NO

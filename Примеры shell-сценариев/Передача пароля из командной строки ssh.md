@@ -51,4 +51,4 @@
 
 Пример вызова скрипта как asspass.sh:
 
-    echo 12345678 | ./asspass.sh ssh user@vm1 "hostname;uname;users;groups"
+    echo 12345678 | ./asspass.sh ssh user@vm1 "hostname; uname; users; groups"

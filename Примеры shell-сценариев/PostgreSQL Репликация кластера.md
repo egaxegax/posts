@@ -60,7 +60,7 @@
 После создания зеркала на слэйве нужно создать файл *recovery.conf* для запуска потоковой репликации и восстановления из "горячего" резерва (команда restore_command) одновременно.
 
     standby_mode='on'
-    primary_conninfo='host=pc1 user=postgres password=postgres'
+    primary_conninfo= 'host=pc1 user=postgres password=postgres'
     trigger_file='/home/pg_repl/trigger_file'
     #restore_command='curl -v ftp://pc1/home/wal_arc/%f -o "%p"'
     restore_command='cp /mnt/disk/home/wal_arc/%f -o "%p"'

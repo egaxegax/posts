@@ -1,1045 +1,342 @@
 <!--2012-04-03 17:12:09-->
-<div id="Box">
+Markdown
+========
+
+Version 1.0.1 - Tue 14 Dec 2004
+
+by John Gruber  
+<http://daringfireball.net/>
 
 
-<div id="Sidebar">
-<p>By <strong>John&nbsp;Gruber</strong></p>
+Introduction
+------------
 
-<ul><!--&#9733;-->
-<li><a href="/archive/" title="Previous articles.">Archive</a></li>
-<!-- 
-<li><a href="/shirts" title="Buy some swell t-shirts.">T-Shirts</a></li>
- -->
-<li><script type="text/javascript">
-// <![CDATA[
-function ReadCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-}
-var display_linked_list = ReadCookie('displayLinkedList');
-var li_linked = '<a href="/linked/" title="The Linked List.">Linked List<\/a>';
-var li_members = '<a href="/members/" title="Support Daring Fireball with a contribution.">Membership<\/a>';
-if (display_linked_list == "hide") {
-	// Linked List is off on home page, so show it in menu:
-	document.write(li_linked + "<\/li>\n<li>" + li_members);
-}
-else {
-	// Default to not putting separate LL item in sidebar:
-	document.write(li_members);
-}
-// ]]>
-</script></li>
-<li><a href="/projects/" title="Software projects, including SmartyPants and Markdown.">Projects</a></li>
-<li><a href="/contact/" title="How to send email regarding Daring Fireball.">Contact</a></li>
-<li><a href="/colophon/" title="About this site and the tools used to produce it.">Colophon</a></li>
-<li><a href="/feeds/">RSS Feed</a></li>
-<li><a href="/feeds/sponsors/">Sponsorship</a></li>
-</ul>
+Markdown is a text-to-HTML conversion tool for web writers. Markdown
+allows you to write using an easy-to-read, easy-to-write plain text
+format, then convert it to structurally valid XHTML (or HTML).
 
-</div> <!-- Sidebar -->
+Thus, "Markdown" is two things: a plain text markup syntax, and a
+software tool, written in Perl, that converts the plain text markup 
+to HTML.
+
+Markdown works both as a Movable Type plug-in and as a standalone Perl
+script -- which means it can also be used as a text filter in BBEdit
+(or any other application that supporst filters written in Perl).
+
+Full documentation of Markdown's syntax and configuration options is
+available on the web: <http://daringfireball.net/projects/markdown/>.
+(Note: this readme file is formatted in Markdown.)
 
 
-<div id="Main">
 
-<div class="article">
-<h1>Markdown: Syntax</h1>
+Installation and Requirements
+-----------------------------
 
-<ul id="ProjectSubmenu">
-    <li><a href="/projects/markdown/" title="Markdown Project Page">Main</a></li>
-    <li><a href="/projects/markdown/basics" title="Markdown Basics">Basics</a></li>
-    <li><a class="selected" title="Markdown Syntax Documentation">Syntax</a></li>
-    <li><a href="/projects/markdown/license" title="Pricing and License Information">License</a></li>
-    <li><a href="/projects/markdown/dingus" title="Online Markdown Web Form">Dingus</a></li>
-</ul>
+Markdown requires Perl 5.6.0 or later. Welcome to the 21st Century.
+Markdown also requires the standard Perl library module `Digest::MD5`. 
 
-<ul>
-<li><a href="#overview">Overview</a>
-<ul><li><a href="#philosophy">Philosophy</a></li>
-<li><a href="#html">Inline HTML</a></li>
-<li><a href="#autoescape">Automatic Escaping for Special Characters</a></li></ul></li>
-<li><a href="#block">Block Elements</a>
-<ul><li><a href="#p">Paragraphs and Line Breaks</a></li>
-<li><a href="#header">Headers</a></li>
-<li><a href="#blockquote">Blockquotes</a></li>
-<li><a href="#list">Lists</a></li>
-<li><a href="#precode">Code Blocks</a></li>
-<li><a href="#hr">Horizontal Rules</a></li></ul></li>
-<li><a href="#span">Span Elements</a>
-<ul><li><a href="#link">Links</a></li>
-<li><a href="#em">Emphasis</a></li>
-<li><a href="#code">Code</a></li>
-<li><a href="#img">Images</a></li></ul></li>
-<li><a href="#misc">Miscellaneous</a>
-<ul><li><a href="#backslash">Backslash Escapes</a></li>
-<li><a href="#autolink">Automatic Links</a></li></ul></li>
-</ul>
 
-<p><strong>Note:</strong> This document is itself written using Markdown; you
-can <a href="/projects/markdown/syntax.text">see the source for it by adding &#8216;.text&#8217; to the URL</a>.</p>
+### Movable Type ###
 
-<hr />
+Markdown works with Movable Type version 2.6 or later (including 
+MT 3.0 or later).
 
-<h2 id="overview">Overview</h2>
+1.  Copy the "Markdown.pl" file into your Movable Type "plugins"
+    directory. The "plugins" directory should be in the same directory
+    as "mt.cgi"; if the "plugins" directory doesn't already exist, use
+    your FTP program to create it. Your installation should look like
+    this:
 
-<h3 id="philosophy">Philosophy</h3>
+        (mt home)/plugins/Markdown.pl
 
-<p>Markdown is intended to be as easy-to-read and easy-to-write as is feasible.</p>
+2.  Once installed, Markdown will appear as an option in Movable Type's
+    Text Formatting pop-up menu. This is selectable on a per-post basis.
+    Markdown translates your posts to HTML when you publish; the posts
+    themselves are stored in your MT database in Markdown format.
 
-<p>Readability, however, is emphasized above all else. A Markdown-formatted
-document should be publishable as-is, as plain text, without looking
-like it&#8217;s been marked up with tags or formatting instructions. While
-Markdown&#8217;s syntax has been influenced by several existing text-to-HTML
-filters &#8212; including <a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a>, <a href="http://www.aaronsw.com/2002/atx/">atx</a>, <a href="http://textism.com/tools/textile/">Textile</a>, <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>,
-<a href="http://www.triptico.com/software/grutatxt.html">Grutatext</a>, and <a href="http://ettext.taint.org/doc/">EtText</a> &#8212; the single biggest source of
-inspiration for Markdown&#8217;s syntax is the format of plain text email.</p>
+3.  If you also install SmartyPants 1.5 (or later), Markdown will offer
+    a second text formatting option: "Markdown with SmartyPants". This
+    option is the same as the regular "Markdown" formatter, except that
+    automatically uses SmartyPants to create typographically correct
+    curly quotes, em-dashes, and ellipses. See the SmartyPants web page
+    for more information: <http://daringfireball.net/projects/smartypants/>
 
-<p>To this end, Markdown&#8217;s syntax is comprised entirely of punctuation
-characters, which punctuation characters have been carefully chosen so
-as to look like what they mean. E.g., asterisks around a word actually
-look like *emphasis*. Markdown lists look like, well, lists. Even
-blockquotes look like quoted passages of text, assuming you&#8217;ve ever
-used email.</p>
+4.  To make Markdown (or "Markdown with SmartyPants") your default
+    text formatting option for new posts, go to Weblog Config ->
+    Preferences.
 
-<h3 id="html">Inline HTML</h3>
+Note that by default, Markdown produces XHTML output. To configure
+Markdown to produce HTML 4 output, see "Configuration", below.
 
-<p>Markdown&#8217;s syntax is intended for one purpose: to be used as a
-format for <em>writing</em> for the web.</p>
 
-<p>Markdown is not a replacement for HTML, or even close to it. Its
-syntax is very small, corresponding only to a very small subset of
-HTML tags. The idea is <em>not</em> to create a syntax that makes it easier
-to insert HTML tags. In my opinion, HTML tags are already easy to
-insert. The idea for Markdown is to make it easy to read, write, and
-edit prose. HTML is a <em>publishing</em> format; Markdown is a <em>writing</em>
-format. Thus, Markdown&#8217;s formatting syntax only addresses issues that
-can be conveyed in plain text.</p>
+### Blosxom ###
 
-<p>For any markup that is not covered by Markdown&#8217;s syntax, you simply
-use HTML itself. There&#8217;s no need to preface it or delimit it to
-indicate that you&#8217;re switching from Markdown to HTML; you just use
-the tags.</p>
+Markdown works with Blosxom version 2.x.
 
-<p>The only restrictions are that block-level HTML elements &#8212; e.g. <code>&lt;div&gt;</code>,
-<code>&lt;table&gt;</code>, <code>&lt;pre&gt;</code>, <code>&lt;p&gt;</code>, etc. &#8212; must be separated from surrounding
-content by blank lines, and the start and end tags of the block should
-not be indented with tabs or spaces. Markdown is smart enough not
-to add extra (unwanted) <code>&lt;p&gt;</code> tags around HTML block-level tags.</p>
+1.  Rename the "Markdown.pl" plug-in to "Markdown" (case is
+    important). Movable Type requires plug-ins to have a ".pl"
+    extension; Blosxom forbids it.
 
-<p>For example, to add an HTML table to a Markdown article:</p>
+2.  Copy the "Markdown" plug-in file to your Blosxom plug-ins folder.
+    If you're not sure where your Blosxom plug-ins folder is, see the
+    Blosxom documentation for information.
 
-<pre><code>This is a regular paragraph.
+3.  That's it. The entries in your weblog will now automatically be
+    processed by Markdown.
 
-&lt;table&gt;
-    &lt;tr&gt;
-        &lt;td&gt;Foo&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
+4.  If you'd like to apply Markdown formatting only to certain posts,
+    rather than all of them, see Jason Clark's instructions for using
+    Markdown in conjunction with Blosxom's Meta plugin:
+    
+    <http://jclark.org/weblog/WebDev/Blosxom/Markdown.html>
 
-This is another regular paragraph.
-</code></pre>
 
-<p>Note that Markdown formatting syntax is not processed within block-level
-HTML tags. E.g., you can&#8217;t use Markdown-style <code>*emphasis*</code> inside an
-HTML block.</p>
+### BBEdit ###
 
-<p>Span-level HTML tags &#8212; e.g. <code>&lt;span&gt;</code>, <code>&lt;cite&gt;</code>, or <code>&lt;del&gt;</code> &#8212; can be
-used anywhere in a Markdown paragraph, list item, or header. If you
-want, you can even use HTML tags instead of Markdown formatting; e.g. if
-you&#8217;d prefer to use HTML <code>&lt;a&gt;</code> or <code>&lt;img&gt;</code> tags instead of Markdown&#8217;s
-link or image syntax, go right ahead.</p>
+Markdown works with BBEdit 6.1 or later on Mac OS X. (It also works
+with BBEdit 5.1 or later and MacPerl 5.6.1 on Mac OS 8.6 or later.)
 
-<p>Unlike block-level HTML tags, Markdown syntax <em>is</em> processed within
-span-level tags.</p>
+1.  Copy the "Markdown.pl" file to appropriate filters folder in your
+    "BBEdit Support" folder. On Mac OS X, this should be:
 
-<h3 id="autoescape">Automatic Escaping for Special Characters</h3>
+        BBEdit Support/Unix Support/Unix Filters/
 
-<p>In HTML, there are two characters that demand special treatment: <code>&lt;</code>
-and <code>&amp;</code>. Left angle brackets are used to start tags; ampersands are
-used to denote HTML entities. If you want to use them as literal
-characters, you must escape them as entities, e.g. <code>&amp;lt;</code>, and
-<code>&amp;amp;</code>.</p>
+    See the BBEdit documentation for more details on the location of
+    these folders.
 
-<p>Ampersands in particular are bedeviling for web writers. If you want to
-write about &#8216;AT&amp;T&#8217;, you need to write &#8216;<code>AT&amp;amp;T</code>&#8217;. You even need to
-escape ampersands within URLs. Thus, if you want to link to:</p>
+    You can rename "Markdown.pl" to whatever you wish.
 
-<pre><code>http://images.google.com/images?num=30&amp;q=larry+bird
-</code></pre>
+2.  That's it. To use Markdown, select some text in a BBEdit document,
+    then choose Markdown from the Filters sub-menu in the "#!" menu, or
+    the Filters floating palette
 
-<p>you need to encode the URL as:</p>
 
-<pre><code>http://images.google.com/images?num=30&amp;amp;q=larry+bird
-</code></pre>
 
-<p>in your anchor tag <code>href</code> attribute. Needless to say, this is easy to
-forget, and is probably the single most common source of HTML validation
-errors in otherwise well-marked-up web sites.</p>
-
-<p>Markdown allows you to use these characters naturally, taking care of
-all the necessary escaping for you. If you use an ampersand as part of
-an HTML entity, it remains unchanged; otherwise it will be translated
-into <code>&amp;amp;</code>.</p>
-
-<p>So, if you want to include a copyright symbol in your article, you can write:</p>
-
-<pre><code>&amp;copy;
-</code></pre>
-
-<p>and Markdown will leave it alone. But if you write:</p>
-
-<pre><code>AT&amp;T
-</code></pre>
-
-<p>Markdown will translate it to:</p>
-
-<pre><code>AT&amp;amp;T
-</code></pre>
-
-<p>Similarly, because Markdown supports <a href="#html">inline HTML</a>, if you use
-angle brackets as delimiters for HTML tags, Markdown will treat them as
-such. But if you write:</p>
-
-<pre><code>4 &lt; 5
-</code></pre>
-
-<p>Markdown will translate it to:</p>
-
-<pre><code>4 &amp;lt; 5
-</code></pre>
-
-<p>However, inside Markdown code spans and blocks, angle brackets and
-ampersands are <em>always</em> encoded automatically. This makes it easy to use
-Markdown to write about HTML code. (As opposed to raw HTML, which is a
-terrible format for writing about HTML syntax, because every single <code>&lt;</code>
-and <code>&amp;</code> in your example code needs to be escaped.)</p>
-
-<hr />
-
-<h2 id="block">Block Elements</h2>
-
-<h3 id="p">Paragraphs and Line Breaks</h3>
-
-<p>A paragraph is simply one or more consecutive lines of text, separated
-by one or more blank lines. (A blank line is any line that looks like a
-blank line &#8212; a line containing nothing but spaces or tabs is considered
-blank.) Normal paragraphs should not be indented with spaces or tabs.</p>
-
-<p>The implication of the &#8220;one or more consecutive lines of text&#8221; rule is
-that Markdown supports &#8220;hard-wrapped&#8221; text paragraphs. This differs
-significantly from most other text-to-HTML formatters (including Movable
-Type&#8217;s &#8220;Convert Line Breaks&#8221; option) which translate every line break
-character in a paragraph into a <code>&lt;br /&gt;</code> tag.</p>
-
-<p>When you <em>do</em> want to insert a <code>&lt;br /&gt;</code> break tag using Markdown, you
-end a line with two or more spaces, then type return.</p>
-
-<p>Yes, this takes a tad more effort to create a <code>&lt;br /&gt;</code>, but a simplistic
-&#8220;every line break is a <code>&lt;br /&gt;</code>&#8221; rule wouldn&#8217;t work for Markdown.
-Markdown&#8217;s email-style <a href="#blockquote">blockquoting</a> and multi-paragraph <a href="#list">list items</a>
-work best &#8212; and look better &#8212; when you format them with hard breaks.</p>
-
-<h3 id="header">Headers</h3>
-
-<p>Markdown supports two styles of headers, <a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> and <a href="http://www.aaronsw.com/2002/atx/">atx</a>.</p>
-
-<p>Setext-style headers are &#8220;underlined&#8221; using equal signs (for first-level
-headers) and dashes (for second-level headers). For example:</p>
-
-<pre><code>This is an H1
-=============
-
-This is an H2
+Configuration
 -------------
-</code></pre>
 
-<p>Any number of underlining <code>=</code>&#8217;s or <code>-</code>&#8217;s will work.</p>
+By default, Markdown produces XHTML output for tags with empty elements.
+E.g.:
 
-<p>Atx-style headers use 1-6 hash characters at the start of the line,
-corresponding to header levels 1-6. For example:</p>
+    <br />
 
-<pre><code># This is an H1
+Markdown can be configured to produce HTML-style tags; e.g.:
 
-## This is an H2
+    <br>
 
-###### This is an H6
-</code></pre>
 
-<p>Optionally, you may &#8220;close&#8221; atx-style headers. This is purely
-cosmetic &#8212; you can use this if you think it looks better. The
-closing hashes don&#8217;t even need to match the number of hashes
-used to open the header. (The number of opening hashes
-determines the header level.) :</p>
+### Movable Type ###
 
-<pre><code># This is an H1 #
+You need to use a special `MTMarkdownOptions` container tag in each
+Movable Type template where you want HTML 4-style output:
 
-## This is an H2 ##
+    <MTMarkdownOptions output='html4'>
+        ... put your entry content here ...
+    </MTMarkdownOptions>
 
-### This is an H3 ######
-</code></pre>
+The easiest way to use MTMarkdownOptions is probably to put the
+opening tag right after your `<body>` tag, and the closing tag right
+before `</body>`.
 
-<h3 id="blockquote">Blockquotes</h3>
+To suppress Markdown processing in a particular template, i.e. to
+publish the raw Markdown-formatted text without translation into
+(X)HTML, set the `output` attribute to 'raw':
 
-<p>Markdown uses email-style <code>&gt;</code> characters for blockquoting. If you&#8217;re
-familiar with quoting passages of text in an email message, then you
-know how to create a blockquote in Markdown. It looks best if you hard
-wrap the text and put a <code>&gt;</code> before every line:</p>
+    <MTMarkdownOptions output='raw'>
+        ... put your entry content here ...
+    </MTMarkdownOptions>
 
-<pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
-&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
-&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-&gt; 
-&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
-&gt; id sem consectetuer libero luctus adipiscing.
-</code></pre>
 
-<p>Markdown allows you to be lazy and only put the <code>&gt;</code> before the first
-line of a hard-wrapped paragraph:</p>
+### Command-Line ###
 
-<pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
-Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+Use the `--html4tags` command-line switch to produce HTML output from a
+Unix-style command line. E.g.:
 
-&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
-id sem consectetuer libero luctus adipiscing.
-</code></pre>
+    % perl Markdown.pl --html4tags foo.text
 
-<p>Blockquotes can be nested (i.e. a blockquote-in-a-blockquote) by
-adding additional levels of <code>&gt;</code>:</p>
+Type `perldoc Markdown.pl`, or read the POD documentation within the
+Markdown.pl source code for more information.
 
-<pre><code>&gt; This is the first level of quoting.
-&gt;
-&gt; &gt; This is nested blockquote.
-&gt;
-&gt; Back to the first level.
-</code></pre>
 
-<p>Blockquotes can contain other Markdown elements, including headers, lists,
-and code blocks:</p>
 
-<pre><code>&gt; ## This is a header.
-&gt; 
-&gt; 1.   This is the first list item.
-&gt; 2.   This is the second list item.
-&gt; 
-&gt; Here's some example code:
-&gt; 
-&gt;     return shell_exec("echo $input | $markdown_script");
-</code></pre>
+Bugs
+----
 
-<p>Any decent text editor should make email-style quoting easy. For
-example, with BBEdit, you can make a selection and choose Increase
-Quote Level from the Text menu.</p>
+To file bug reports or feature requests please send email to:
+<markdown@daringfireball.net>.
 
-<h3 id="list">Lists</h3>
 
-<p>Markdown supports ordered (numbered) and unordered (bulleted) lists.</p>
 
-<p>Unordered lists use asterisks, pluses, and hyphens &#8212; interchangably
-&#8212; as list markers:</p>
+Version History
+---------------
 
-<pre><code>*   Red
-*   Green
-*   Blue
-</code></pre>
+1.0.1 (14 Dec 2004):
 
-<p>is equivalent to:</p>
++	Changed the syntax rules for code blocks and spans. Previously,
+	backslash escapes for special Markdown characters were processed
+	everywhere other than within inline HTML tags. Now, the contents
+	of code blocks and spans are no longer processed for backslash
+	escapes. This means that code blocks and spans are now treated
+	literally, with no special rules to worry about regarding
+	backslashes.
 
-<pre><code>+   Red
-+   Green
-+   Blue
-</code></pre>
+	**NOTE**: This changes the syntax from all previous versions of
+	Markdown. Code blocks and spans involving backslash characters
+	will now generate different output than before.
 
-<p>and:</p>
++	Tweaked the rules for link definitions so that they must occur
+	within three spaces of the left margin. Thus if you indent a link
+	definition by four spaces or a tab, it will now be a code block.
+	
+		   [a]: /url/  "Indented 3 spaces, this is a link def"
 
-<pre><code>-   Red
--   Green
--   Blue
-</code></pre>
+		    [b]: /url/  "Indented 4 spaces, this is a code block"
+	
+	**IMPORTANT**: This may affect existing Markdown content if it
+	contains link definitions indented by 4 or more spaces.
 
-<p>Ordered lists use numbers followed by periods:</p>
++	Added `>`, `+`, and `-` to the list of backslash-escapable
+	characters. These should have been done when these characters
+	were added as unordered list item markers.
 
-<pre><code>1.  Bird
-2.  McHale
-3.  Parish
-</code></pre>
++	Trailing spaces and tabs following HTML comments and `<hr/>` tags
+	are now ignored.
 
-<p>It&#8217;s important to note that the actual numbers you use to mark the
-list have no effect on the HTML output Markdown produces. The HTML
-Markdown produces from the above list is:</p>
++	Inline links using `<` and `>` URL delimiters weren't working:
 
-<pre><code>&lt;ol&gt;
-&lt;li&gt;Bird&lt;/li&gt;
-&lt;li&gt;McHale&lt;/li&gt;
-&lt;li&gt;Parish&lt;/li&gt;
-&lt;/ol&gt;
-</code></pre>
+		like [this](<http://example.com/>)
 
-<p>If you instead wrote the list in Markdown like this:</p>
++	Added a bit of tolerance for trailing spaces and tabs after
+	Markdown hr's.
 
-<pre><code>1.  Bird
-1.  McHale
-1.  Parish
-</code></pre>
++	Fixed bug where auto-links were being processed within code spans:
 
-<p>or even:</p>
+		like this: `<http://example.com/>`
 
-<pre><code>3. Bird
-1. McHale
-8. Parish
-</code></pre>
++	Sort-of fixed a bug where lines in the middle of hard-wrapped
+	paragraphs, which lines look like the start of a list item,
+	would accidentally trigger the creation of a list. E.g. a
+	paragraph that looked like this:
 
-<p>you&#8217;d get the exact same HTML output. The point is, if you want to,
-you can use ordinal numbers in your ordered Markdown lists, so that
-the numbers in your source match the numbers in your published HTML.
-But if you want to be lazy, you don&#8217;t have to.</p>
+		I recommend upgrading to version
+		8. Oops, now this line is treated
+		as a sub-list.
 
-<p>If you do use lazy list numbering, however, you should still start the
-list with the number 1. At some point in the future, Markdown may support
-starting ordered lists at an arbitrary number.</p>
+	This is fixed for top-level lists, but it can still happen for
+	sub-lists. E.g., the following list item will not be parsed
+	properly:
 
-<p>List markers typically start at the left margin, but may be indented by
-up to three spaces. List markers must be followed by one or more spaces
-or a tab.</p>
+		+	I recommend upgrading to version
+			8. Oops, now this line is treated
+			as a sub-list.
 
-<p>To make lists look nice, you can wrap items with hanging indents:</p>
+	Given Markdown's list-creation rules, I'm not sure this can
+	be fixed.
 
-<pre><code>*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
-    viverra nec, fringilla in, laoreet vitae, risus.
-*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
-    Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
++	Standalone HTML comments are now handled; previously, they'd get
+	wrapped in a spurious `<p>` tag.
 
-<p>But if you want to be lazy, you don&#8217;t have to:</p>
++	Fix for horizontal rules preceded by 2 or 3 spaces.
 
-<pre><code>*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
-viverra nec, fringilla in, laoreet vitae, risus.
-*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
-Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
++	`<hr>` HTML tags in must occur within three spaces of left
+	margin. (With 4 spaces or a tab, they should be code blocks, but
+	weren't before this fix.)
 
-<p>If list items are separated by blank lines, Markdown will wrap the
-items in <code>&lt;p&gt;</code> tags in the HTML output. For example, this input:</p>
++	Capitalized "With" in "Markdown With SmartyPants" for
+	consistency with the same string label in SmartyPants.pl.
+	(This fix is specific to the MT plug-in interface.)
 
-<pre><code>*   Bird
-*   Magic
-</code></pre>
++	Auto-linked email address can now optionally contain
+	a 'mailto:' protocol. I.e. these are equivalent:
 
-<p>will turn into:</p>
+		<mailto:user@example.com>
+		<user@example.com>
 
-<pre><code>&lt;ul&gt;
-&lt;li&gt;Bird&lt;/li&gt;
-&lt;li&gt;Magic&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
++	Fixed annoying bug where nested lists would wind up with
+	spurious (and invalid) `<p>` tags.
 
-<p>But this:</p>
++	You can now write empty links:
 
-<pre><code>*   Bird
+		[like this]()
 
-*   Magic
-</code></pre>
+	and they'll be turned into anchor tags with empty href attributes.
+	This should have worked before, but didn't.
 
-<p>will turn into:</p>
++	`***this***` and `___this___` are now turned into
 
-<pre><code>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Bird&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Magic&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
+		<strong><em>this</em></strong>
 
-<p>List items may consist of multiple paragraphs. Each subsequent
-paragraph in a list item must be indented by either 4 spaces
-or one tab:</p>
+	Instead of
 
-<pre><code>1.  This is a list item with two paragraphs. Lorem ipsum dolor
-    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-    mi posuere lectus.
+		<strong><em>this</strong></em>
 
-    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-    sit amet velit.
+	which isn't valid. (Thanks to Michel Fortin for the fix.)
 
-2.  Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
++	Added a new substitution in `_EncodeCode()`: s/\$/&#036;/g; This
+	is only for the benefit of Blosxom users, because Blosxom
+	(sometimes?) interpolates Perl scalars in your article bodies.
 
-<p>It looks nice if you indent every line of the subsequent
-paragraphs, but here again, Markdown will allow you to be
-lazy:</p>
++	Fixed problem for links defined with urls that include parens, e.g.:
 
-<pre><code>*   This is a list item with two paragraphs.
+		[1]: http://sources.wikipedia.org/wiki/Middle_East_Policy_(Chomsky)
 
-    This is the second paragraph in the list item. You're
-only required to indent the first line. Lorem ipsum dolor
-sit amet, consectetuer adipiscing elit.
+	"Chomsky" was being erroneously treated as the URL's title.
 
-*   Another item in the same list.
-</code></pre>
++	At some point during 1.0's beta cycle, I changed every sub's
+	argument fetching from this idiom:
 
-<p>To put a blockquote within a list item, the blockquote&#8217;s <code>&gt;</code>
-delimiters need to be indented:</p>
+		my $text = shift;
 
-<pre><code>*   A list item with a blockquote:
+	to:
 
-    &gt; This is a blockquote
-    &gt; inside a list item.
-</code></pre>
+		my $text = shift || return '';
 
-<p>To put a code block within a list item, the code block needs
-to be indented <em>twice</em> &#8212; 8 spaces or two tabs:</p>
+	The idea was to keep Markdown from doing any work in a sub
+	if the input was empty. This introduced a bug, though:
+	if the input to any function was the single-character string
+	"0", it would also evaluate as false and return immediately.
+	How silly. Now fixed.
 
-<pre><code>*   A list item with a code block:
 
-        &lt;code goes here&gt;
-</code></pre>
 
-<p>It&#8217;s worth noting that it&#8217;s possible to trigger an ordered list by
-accident, by writing something like this:</p>
+Donations
+---------
 
-<pre><code>1986. What a great season.
-</code></pre>
+Donations to support Markdown's development are happily accepted. See:
+<http://daringfireball.net/projects/markdown/> for details.
 
-<p>In other words, a <em>number-period-space</em> sequence at the beginning of a
-line. To avoid this, you can backslash-escape the period:</p>
 
-<pre><code>1986\. What a great season.
-</code></pre>
 
-<h3 id="precode">Code Blocks</h3>
+Copyright and License
+---------------------
 
-<p>Pre-formatted code blocks are used for writing about programming or
-markup source code. Rather than forming normal paragraphs, the lines
-of a code block are interpreted literally. Markdown wraps a code block
-in both <code>&lt;pre&gt;</code> and <code>&lt;code&gt;</code> tags.</p>
+Copyright (c) 2003-2004 John Gruber   
+<http://daringfireball.net/>   
+All rights reserved.
 
-<p>To produce a code block in Markdown, simply indent every line of the
-block by at least 4 spaces or 1 tab. For example, given this input:</p>
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
 
-<pre><code>This is a normal paragraph:
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
 
-    This is a code block.
-</code></pre>
+* Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
 
-<p>Markdown will generate:</p>
+* Neither the name "Markdown" nor the names of its contributors may
+  be used to endorse or promote products derived from this software
+  without specific prior written permission.
 
-<pre><code>&lt;p&gt;This is a normal paragraph:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;This is a code block.
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>One level of indentation &#8212; 4 spaces or 1 tab &#8212; is removed from each
-line of the code block. For example, this:</p>
-
-<pre><code>Here is an example of AppleScript:
-
-    tell application "Foo"
-        beep
-    end tell
-</code></pre>
-
-<p>will turn into:</p>
-
-<pre><code>&lt;p&gt;Here is an example of AppleScript:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;tell application "Foo"
-    beep
-end tell
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>A code block continues until it reaches a line that is not indented
-(or the end of the article).</p>
-
-<p>Within a code block, ampersands (<code>&amp;</code>) and angle brackets (<code>&lt;</code> and <code>&gt;</code>)
-are automatically converted into HTML entities. This makes it very
-easy to include example HTML source code using Markdown &#8212; just paste
-it and indent it, and Markdown will handle the hassle of encoding the
-ampersands and angle brackets. For example, this:</p>
-
-<pre><code>    &lt;div class="footer"&gt;
-        &amp;copy; 2004 Foo Corporation
-    &lt;/div&gt;
-</code></pre>
-
-<p>will turn into:</p>
-
-<pre><code>&lt;pre&gt;&lt;code&gt;&amp;lt;div class="footer"&amp;gt;
-    &amp;amp;copy; 2004 Foo Corporation
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>Regular Markdown syntax is not processed within code blocks. E.g.,
-asterisks are just literal asterisks within a code block. This means
-it&#8217;s also easy to use Markdown to write about Markdown&#8217;s own syntax.</p>
-
-<h3 id="hr">Horizontal Rules</h3>
-
-<p>You can produce a horizontal rule tag (<code>&lt;hr /&gt;</code>) by placing three or
-more hyphens, asterisks, or underscores on a line by themselves. If you
-wish, you may use spaces between the hyphens or asterisks. Each of the
-following lines will produce a horizontal rule:</p>
-
-<pre><code>* * *
-
-***
-
-*****
-
-- - -
-
----------------------------------------
-</code></pre>
-
-<hr />
-
-<h2 id="span">Span Elements</h2>
-
-<h3 id="link">Links</h3>
-
-<p>Markdown supports two style of links: <em>inline</em> and <em>reference</em>.</p>
-
-<p>In both styles, the link text is delimited by [square brackets].</p>
-
-<p>To create an inline link, use a set of regular parentheses immediately
-after the link text&#8217;s closing square bracket. Inside the parentheses,
-put the URL where you want the link to point, along with an <em>optional</em>
-title for the link, surrounded in quotes. For example:</p>
-
-<pre><code>This is [an example](http://example.com/ "Title") inline link.
-
-[This link](http://example.net/) has no title attribute.
-</code></pre>
-
-<p>Will produce:</p>
-
-<pre><code>&lt;p&gt;This is &lt;a href="http://example.com/" title="Title"&gt;
-an example&lt;/a&gt; inline link.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://example.net/"&gt;This link&lt;/a&gt; has no
-title attribute.&lt;/p&gt;
-</code></pre>
-
-<p>If you&#8217;re referring to a local resource on the same server, you can
-use relative paths:</p>
-
-<pre><code>See my [About](/about/) page for details.   
-</code></pre>
-
-<p>Reference-style links use a second set of square brackets, inside
-which you place a label of your choosing to identify the link:</p>
-
-<pre><code>This is [an example][id] reference-style link.
-</code></pre>
-
-<p>You can optionally use a space to separate the sets of brackets:</p>
-
-<pre><code>This is [an example] [id] reference-style link.
-</code></pre>
-
-<p>Then, anywhere in the document, you define your link label like this,
-on a line by itself:</p>
-
-<pre><code>[id]: http://example.com/  "Optional Title Here"
-</code></pre>
-
-<p>That is:</p>
-
-<ul>
-<li>Square brackets containing the link identifier (optionally
-indented from the left margin using up to three spaces);</li>
-<li>followed by a colon;</li>
-<li>followed by one or more spaces (or tabs);</li>
-<li>followed by the URL for the link;</li>
-<li>optionally followed by a title attribute for the link, enclosed
-in double or single quotes, or enclosed in parentheses.</li>
-</ul>
-
-<p>The following three link definitions are equivalent:</p>
-
-<pre><code>[foo]: http://example.com/  "Optional Title Here"
-[foo]: http://example.com/  'Optional Title Here'
-[foo]: http://example.com/  (Optional Title Here)
-</code></pre>
-
-<p><strong>Note:</strong> There is a known bug in Markdown.pl 1.0.1 which prevents
-single quotes from being used to delimit link titles.</p>
-
-<p>The link URL may, optionally, be surrounded by angle brackets:</p>
-
-<pre><code>[id]: &lt;http://example.com/&gt;  "Optional Title Here"
-</code></pre>
-
-<p>You can put the title attribute on the next line and use extra spaces
-or tabs for padding, which tends to look better with longer URLs:</p>
-
-<pre><code>[id]: http://example.com/longish/path/to/resource/here
-    "Optional Title Here"
-</code></pre>
-
-<p>Link definitions are only used for creating links during Markdown
-processing, and are stripped from your document in the HTML output.</p>
-
-<p>Link definition names may consist of letters, numbers, spaces, and
-punctuation &#8212; but they are <em>not</em> case sensitive. E.g. these two
-links:</p>
-
-<pre><code>[link text][a]
-[link text][A]
-</code></pre>
-
-<p>are equivalent.</p>
-
-<p>The <em>implicit link name</em> shortcut allows you to omit the name of the
-link, in which case the link text itself is used as the name.
-Just use an empty set of square brackets &#8212; e.g., to link the word
-&#8220;Google&#8221; to the google.com web site, you could simply write:</p>
-
-<pre><code>[Google][]
-</code></pre>
-
-<p>And then define the link:</p>
-
-<pre><code>[Google]: http://google.com/
-</code></pre>
-
-<p>Because link names may contain spaces, this shortcut even works for
-multiple words in the link text:</p>
-
-<pre><code>Visit [Daring Fireball][] for more information.
-</code></pre>
-
-<p>And then define the link:</p>
-
-<pre><code>[Daring Fireball]: http://daringfireball.net/
-</code></pre>
-
-<p>Link definitions can be placed anywhere in your Markdown document. I
-tend to put them immediately after each paragraph in which they&#8217;re
-used, but if you want, you can put them all at the end of your
-document, sort of like footnotes.</p>
-
-<p>Here&#8217;s an example of reference links in action:</p>
-
-<pre><code>I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
-
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
-</code></pre>
-
-<p>Using the implicit link name shortcut, you could instead write:</p>
-
-<pre><code>I get 10 times more traffic from [Google][] than from
-[Yahoo][] or [MSN][].
-
-  [google]: http://google.com/        "Google"
-  [yahoo]:  http://search.yahoo.com/  "Yahoo Search"
-  [msn]:    http://search.msn.com/    "MSN Search"
-</code></pre>
-
-<p>Both of the above examples will produce the following HTML output:</p>
-
-<pre><code>&lt;p&gt;I get 10 times more traffic from &lt;a href="http://google.com/"
-title="Google"&gt;Google&lt;/a&gt; than from
-&lt;a href="http://search.yahoo.com/" title="Yahoo Search"&gt;Yahoo&lt;/a&gt;
-or &lt;a href="http://search.msn.com/" title="MSN Search"&gt;MSN&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>For comparison, here is the same paragraph written using
-Markdown&#8217;s inline link style:</p>
-
-<pre><code>I get 10 times more traffic from [Google](http://google.com/ "Google")
-than from [Yahoo](http://search.yahoo.com/ "Yahoo Search") or
-[MSN](http://search.msn.com/ "MSN Search").
-</code></pre>
-
-<p>The point of reference-style links is not that they&#8217;re easier to
-write. The point is that with reference-style links, your document
-source is vastly more readable. Compare the above examples: using
-reference-style links, the paragraph itself is only 81 characters
-long; with inline-style links, it&#8217;s 176 characters; and as raw HTML,
-it&#8217;s 234 characters. In the raw HTML, there&#8217;s more markup than there
-is text.</p>
-
-<p>With Markdown&#8217;s reference-style links, a source document much more
-closely resembles the final output, as rendered in a browser. By
-allowing you to move the markup-related metadata out of the paragraph,
-you can add links without interrupting the narrative flow of your
-prose.</p>
-
-<h3 id="em">Emphasis</h3>
-
-<p>Markdown treats asterisks (<code>*</code>) and underscores (<code>_</code>) as indicators of
-emphasis. Text wrapped with one <code>*</code> or <code>_</code> will be wrapped with an
-HTML <code>&lt;em&gt;</code> tag; double <code>*</code>&#8217;s or <code>_</code>&#8217;s will be wrapped with an HTML
-<code>&lt;strong&gt;</code> tag. E.g., this input:</p>
-
-<pre><code>*single asterisks*
-
-_single underscores_
-
-**double asterisks**
-
-__double underscores__
-</code></pre>
-
-<p>will produce:</p>
-
-<pre><code>&lt;em&gt;single asterisks&lt;/em&gt;
-
-&lt;em&gt;single underscores&lt;/em&gt;
-
-&lt;strong&gt;double asterisks&lt;/strong&gt;
-
-&lt;strong&gt;double underscores&lt;/strong&gt;
-</code></pre>
-
-<p>You can use whichever style you prefer; the lone restriction is that
-the same character must be used to open and close an emphasis span.</p>
-
-<p>Emphasis can be used in the middle of a word:</p>
-
-<pre><code>un*frigging*believable
-</code></pre>
-
-<p>But if you surround an <code>*</code> or <code>_</code> with spaces, it&#8217;ll be treated as a
-literal asterisk or underscore.</p>
-
-<p>To produce a literal asterisk or underscore at a position where it
-would otherwise be used as an emphasis delimiter, you can backslash
-escape it:</p>
-
-<pre><code>\*this text is surrounded by literal asterisks\*
-</code></pre>
-
-<h3 id="code">Code</h3>
-
-<p>To indicate a span of code, wrap it with backtick quotes (<code>`</code>).
-Unlike a pre-formatted code block, a code span indicates code within a
-normal paragraph. For example:</p>
-
-<pre><code>Use the `printf()` function.
-</code></pre>
-
-<p>will produce:</p>
-
-<pre><code>&lt;p&gt;Use the &lt;code&gt;printf()&lt;/code&gt; function.&lt;/p&gt;
-</code></pre>
-
-<p>To include a literal backtick character within a code span, you can use
-multiple backticks as the opening and closing delimiters:</p>
-
-<pre><code>``There is a literal backtick (`) here.``
-</code></pre>
-
-<p>which will produce this:</p>
-
-<pre><code>&lt;p&gt;&lt;code&gt;There is a literal backtick (`) here.&lt;/code&gt;&lt;/p&gt;
-</code></pre>
-
-<p>The backtick delimiters surrounding a code span may include spaces &#8212;
-one after the opening, one before the closing. This allows you to place
-literal backtick characters at the beginning or end of a code span:</p>
-
-<pre><code>A single backtick in a code span: `` ` ``
-
-A backtick-delimited string in a code span: `` `foo` ``
-</code></pre>
-
-<p>will produce:</p>
-
-<pre><code>&lt;p&gt;A single backtick in a code span: &lt;code&gt;`&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;A backtick-delimited string in a code span: &lt;code&gt;`foo`&lt;/code&gt;&lt;/p&gt;
-</code></pre>
-
-<p>With a code span, ampersands and angle brackets are encoded as HTML
-entities automatically, which makes it easy to include example HTML
-tags. Markdown will turn this:</p>
-
-<pre><code>Please don't use any `&lt;blink&gt;` tags.
-</code></pre>
-
-<p>into:</p>
-
-<pre><code>&lt;p&gt;Please don't use any &lt;code&gt;&amp;lt;blink&amp;gt;&lt;/code&gt; tags.&lt;/p&gt;
-</code></pre>
-
-<p>You can write this:</p>
-
-<pre><code>`&amp;#8212;` is the decimal-encoded equivalent of `&amp;mdash;`.
-</code></pre>
-
-<p>to produce:</p>
-
-<pre><code>&lt;p&gt;&lt;code&gt;&amp;amp;#8212;&lt;/code&gt; is the decimal-encoded
-equivalent of &lt;code&gt;&amp;amp;mdash;&lt;/code&gt;.&lt;/p&gt;
-</code></pre>
-
-<h3 id="img">Images</h3>
-
-<p>Admittedly, it&#8217;s fairly difficult to devise a &#8220;natural&#8221; syntax for
-placing images into a plain text document format.</p>
-
-<p>Markdown uses an image syntax that is intended to resemble the syntax
-for links, allowing for two styles: <em>inline</em> and <em>reference</em>.</p>
-
-<p>Inline image syntax looks like this:</p>
-
-<pre><code>![Alt text](/path/to/img.jpg)
-
-![Alt text](/path/to/img.jpg "Optional title")
-</code></pre>
-
-<p>That is:</p>
-
-<ul>
-<li>An exclamation mark: <code>!</code>;</li>
-<li>followed by a set of square brackets, containing the <code>alt</code>
-attribute text for the image;</li>
-<li>followed by a set of parentheses, containing the URL or path to
-the image, and an optional <code>title</code> attribute enclosed in double
-or single quotes.</li>
-</ul>
-
-<p>Reference-style image syntax looks like this:</p>
-
-<pre><code>![Alt text][id]
-</code></pre>
-
-<p>Where &#8220;id&#8221; is the name of a defined image reference. Image references
-are defined using syntax identical to link references:</p>
-
-<pre><code>[id]: url/to/image  "Optional title attribute"
-</code></pre>
-
-<p>As of this writing, Markdown has no syntax for specifying the
-dimensions of an image; if this is important to you, you can simply
-use regular HTML <code>&lt;img&gt;</code> tags.</p>
-
-<hr />
-
-<h2 id="misc">Miscellaneous</h2>
-
-<h3 id="autolink">Automatic Links</h3>
-
-<p>Markdown supports a shortcut style for creating &#8220;automatic&#8221; links for URLs and email addresses: simply surround the URL or email address with angle brackets. What this means is that if you want to show the actual text of a URL or email address, and also have it be a clickable link, you can do this:</p>
-
-<pre><code>&lt;http://example.com/&gt;
-</code></pre>
-
-<p>Markdown will turn this into:</p>
-
-<pre><code>&lt;a href="http://example.com/"&gt;http://example.com/&lt;/a&gt;
-</code></pre>
-
-<p>Automatic links for email addresses work similarly, except that
-Markdown will also perform a bit of randomized decimal and hex
-entity-encoding to help obscure your address from address-harvesting
-spambots. For example, Markdown will turn this:</p>
-
-<pre><code>&lt;address@example.com&gt;
-</code></pre>
-
-<p>into something like this:</p>
-
-<pre><code>&lt;a href="&amp;#x6D;&amp;#x61;i&amp;#x6C;&amp;#x74;&amp;#x6F;:&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;
-&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;
-&amp;#109;"&gt;&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;
-&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt;
-</code></pre>
-
-<p>which will render in a browser as a clickable link to &#8220;address@example.com&#8221;.</p>
-
-<p>(This sort of entity-encoding trick will indeed fool many, if not
-most, address-harvesting bots, but it definitely won&#8217;t fool all of
-them. It&#8217;s better than nothing, but an address published in this way
-will probably eventually start receiving spam.)</p>
-
-<h3 id="backslash">Backslash Escapes</h3>
-
-<p>Markdown allows you to use backslash escapes to generate literal
-characters which would otherwise have special meaning in Markdown&#8217;s
-formatting syntax. For example, if you wanted to surround a word
-with literal asterisks (instead of an HTML <code>&lt;em&gt;</code> tag), you can use
-backslashes before the asterisks, like this:</p>
-
-<pre><code>\*literal asterisks\*
-</code></pre>
-
-<p>Markdown provides backslash escapes for the following characters:</p>
-
-<pre><code>\   backslash
-`   backtick
-*   asterisk
-_   underscore
-{}  curly braces
-[]  square brackets
-()  parentheses
-#   hash mark
-+   plus sign
--   minus sign (hyphen)
-.   dot
-!   exclamation mark
-</code></pre>
-
-</div> <!-- article -->
-
-<div id="Footer">
-<form id="SiteSearch" action="/search" method="get" style="margin-bottom: 2.5em;">
-<div>
-<input name="q" type="text" value="" style="margin-right: 8px; width: 26em;" />
-<input type="submit" value="Search" />
-</div>
-</form>
-<p class='smallprint'><a href='http://www.amazon.com/exec/obidos/redirect?tag=daringfirebal-20&amp;path=subst/home/home.html'>Shop at Amazon.com and support Daring Fireball</a></p>
-
-<p class="smallprint">
-<a href="/linked/" title="Recent Linked List entries and archive.">Linked List</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="/preferences/" title="Customize the font size and presentation options for this web site.">Display Preferences</a><br />
-Copyright &copy; 2002-2012 The Daring Fireball Company LLC.</p>
-</div>
-
-<div id="SidebarTheDeck">
-<script type="text/javascript">
-// <![CDATA[
-	(function(id) {
-		document.write('<script type="text/javascript" src="' +
-			'http://connect.decknetwork.net/deck' + id + '_js.php?' +
-			(new Date().getTime()) + '"></' + 'script>');
-	})("DF");
-	var deckDiv = document.getElementById("SidebarTheDeck");
-	var sidebarDiv = document.getElementById("Sidebar");
-	sidebarDiv.appendChild(deckDiv);
-// ]]>
-</script>
-
-<p id="ViaTheDeck"><a href="http://decknetwork.net/">
-<img src="http://daringfireball.net/graphics/madison/via_the_deck.png"    alt="Ads via The Deck" class="the_deck_promo" width="70" />=
-<span>Ads via The Deck</span>
-</a></p>
-
-</div>
-
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-593949-1']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-</div> <!-- Main -->
-
-</div> <!-- box -->
+This software is provided by the copyright holders and contributors "as
+is" and any express or implied warranties, including, but not limited
+to, the implied warranties of merchantability and fitness for a
+particular purpose are disclaimed. In no event shall the copyright owner
+or contributors be liable for any direct, indirect, incidental, special,
+exemplary, or consequential damages (including, but not limited to,
+procurement of substitute goods or services; loss of use, data, or
+profits; or business interruption) however caused and on any theory of
+liability, whether in contract, strict liability, or tort (including
+negligence or otherwise) arising in any way out of the use of this
+software, even if advised of the possibility of such damage.
